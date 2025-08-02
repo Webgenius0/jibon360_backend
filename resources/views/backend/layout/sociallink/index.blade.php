@@ -39,7 +39,6 @@
                 </table>
             </div><!-- table-wrapper -->
         </div>
-
     </div><!-- sl-pagebody -->
     @include('backend.partials.footer')
 </div>
