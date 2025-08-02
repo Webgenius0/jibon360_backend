@@ -1,18 +1,19 @@
 <?php
-use App\Http\Controllers\AjaxController;
-use App\Http\Controllers\Web\Backend\DashboardController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\Web\Backend\EmergencyContactController;
-use App\Http\Controllers\Web\Backend\MailController;
-use App\Http\Controllers\Web\Backend\ModeratorController;
-use App\Http\Controllers\Web\Backend\NotificationController as WebNotificationController;
-use App\Http\Controllers\Web\Backend\PostCategoryController;
-use App\Http\Controllers\Web\Backend\PostController as BackendPostController;
-use App\Http\Controllers\Web\Backend\SettingController;
-use App\Http\Controllers\Web\Backend\SmsController;
-use App\Http\Controllers\Web\Backend\SocialController;
-use App\Http\Controllers\Web\Backend\UserController as BackendUserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Web\Backend\SmsController;
+use App\Http\Controllers\Web\Backend\MailController;
+use App\Http\Controllers\Web\Backend\SocialController;
+use App\Http\Controllers\Web\Backend\SettingController;
+use App\Http\Controllers\Web\Backend\DashboardController;
+use App\Http\Controllers\Web\Backend\ModeratorController;
+use App\Http\Controllers\Web\Backend\SocialLinkController;
+use App\Http\Controllers\Web\Backend\PostCategoryController;
+use App\Http\Controllers\Web\Backend\EmergencyContactController;
+use App\Http\Controllers\Web\Backend\PostController as BackendPostController;
+use App\Http\Controllers\Web\Backend\UserController as BackendUserController;
+use App\Http\Controllers\Web\Backend\NotificationController as WebNotificationController;
 
 
 
@@ -69,6 +70,15 @@ Route::prefix('dashboard')->middleware(['auth', 'verified', 'admin'])->group(fun
         Route::post('post-category/update', 'update')->name('post-category.update');
         Route::delete('post-category/{id}', 'destroy')->name('post-category.destroy');
         Route::get('post-category/status/{id}', 'status')->name('post-category.status');
+    });
+    Route::controller(SocialLinkController::class)->group(function () {
+        Route::get('social-link', 'index')->name('social-link.index');
+        Route::get('social-link/create', 'create')->name('social-link.create');
+        Route::post('social-link', 'store')->name('social-link.store');
+        Route::get('social-link/edit/{id}', 'edit')->name('social-link.edit');
+        Route::post('social-link/update', 'update')->name('social-link.update');
+        Route::delete('social-link/{id}', 'destroy')->name('social-link.destroy');
+        Route::get('social-link/status/{id}', 'status')->name('social-link.status');
     });
     // Post Category Route End
 

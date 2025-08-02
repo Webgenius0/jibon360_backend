@@ -83,6 +83,18 @@
             <li class="nav-item"><a href="{{ route('emergency-contacts.create') }}" class="nav-link @if (Route::is('emergency-contacts.create')) active @endif"><i class="bi bi-brush tx-16"></i> Create</a></li>
         </ul>
 
+
+
+        <a href="{{ route('social-link.index') }}" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <i class="menu-item-icon bi bi-person-lines-fill tx-22"></i>
+                <span class="menu-item-label">Social link</span>
+                <i class="menu-item-arrow "></i>
+            </div>
+        </a>
+
+
+
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <i class="menu-item-icon bi bi-gear-fill tx-22"></i>
@@ -96,7 +108,7 @@
             <li class="nav-item"><a href="{{ route('settings.mail') }}" class="nav-link @if (Route::is('settings.mail')) active @endif"><i class="bi bi-envelope tx-16"></i> Mail</a></li>
             <li class="nav-item"><a href="{{ route('settings.sms') }}" class="nav-link"><i class="bi bi-chat-right-dots-fill tx-16"></i> SMS</a></li>
         </ul>
-        
+
         @endif
     </div>
 
