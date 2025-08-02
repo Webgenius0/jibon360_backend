@@ -66,11 +66,13 @@ class SocialLinkController extends Controller
         
         $request->validate([
             'name'  => 'required|min:3|max:255',
+            'url'   => 'required|url',
             'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         try {
             $SocialLink = new SocialLink();
             $SocialLink->name = $request->name;
+            $SocialLink->url = $request->url;
             if (!empty($request['icon'])) {
                 $imageName = 'icon_' . Str::random(10);
                 $SocialLink->icon = Helper::fileUpload($request['icon'], 'social_link', $imageName);
@@ -123,18 +125,20 @@ class SocialLinkController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'url' => 'required|url',
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         try {
             $SocialLink = SocialLink::find($request->id);
             $SocialLink->name = $request->name;
-            if(!empty( $request['image'])){
+            $SocialLink->url = $request->url;
+            if(!empty( $request['icon'])){
                 if(!empty($SocialLink->image && File::exists(public_path( '/' ) . $SocialLink->image ))){
-                    @unlink( public_path( '/' ) . $SocialLink->image );  
+                    @unlink( public_path( '/' ) . $SocialLink->icon );  
                 }
-                $imageName = 'image_'.Str::random(10);
-                $image = Helper::fileUpload( $request->image, 'post_category', $imageName);
-                $SocialLink->image = $image;
+                $imageName = 'icon_'.Str::random(10);
+                $icon = Helper::fileUpload( $request->icon, 'social_link', $imageName);
+                $SocialLink->icon = $icon;
             }
             $SocialLink->save();
             flash()->success('Social Link Updated');
