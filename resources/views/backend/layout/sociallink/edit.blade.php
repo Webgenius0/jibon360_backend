@@ -18,7 +18,7 @@
             <h6 class="card-body-title">Post Category</h6>
             <p class="mg-b-20 mg-sm-b-30">Edit</p>
 
-            <form method="POST" action="{{ route('post-category.update') }}"  enctype="multipart/form-data">
+            <form method="POST" action="{{ route('social-link.update') }}"  enctype="multipart/form-data">
                 @csrf
                 <div class="form-layout">
                     <div class="row mg-b-25">

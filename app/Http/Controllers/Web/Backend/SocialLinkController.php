@@ -44,7 +44,7 @@ class SocialLinkController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $html = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">';
-                    $html .= '<a href="' . route('post-category.edit', $data->id).'" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>';
+                    $html .= '<a href="' . route('social-link.edit', $data->id).'" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>';
                     $html .= '<a href="#" onclick="showDeleteConfirm('.$data->id.')" type="button"class="btn btn-danger btn-sm text-white" title="Delete" readonly><i class="bi bi-trash"></i></a>';
                     $html .= '</div>';
                     return $html;
@@ -137,8 +137,8 @@ class SocialLinkController extends Controller
                 $SocialLink->image = $image;
             }
             $SocialLink->save();
-            flash()->success('Post Category Updated');
-            return redirect()->route('post-category.index');
+            flash()->success('Social Link Updated');
+            return redirect()->route('social-link.index');
         } catch (Exception $e) {
             flash()->error($e->getMessage());
             return redirect()->back();
@@ -157,12 +157,12 @@ class SocialLinkController extends Controller
                 $SocialLink->delete();
                 return response()->json([
                     'success' => true,
-                    'message' => 'Category Deleted Successfully.',
+                    'message' => 'Social Link Deleted Successfully.',
                 ]);
             } catch (Exception $e) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Category Not Deleted because category has posts. Please delete all posts related to this category first.',
+                    'message' => 'Social Link Not Deleted because it has posts. Please delete all posts related to this Social Link first.',
                 ]);
             }
         }
