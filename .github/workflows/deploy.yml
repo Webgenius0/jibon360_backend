@@ -15,5 +15,5 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.jibon420.com
-          username: jibon420@jibon420.com
+          username: jibon420@jibon360.com
           password: "jibohnja_jibon420"
