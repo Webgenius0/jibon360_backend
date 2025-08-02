@@ -84,7 +84,6 @@
         </ul>
 
 
-<<<<<<< HEAD
          <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <i class="menu-item-icon bi bi-person-lines-fill tx-22"></i>
@@ -93,19 +92,6 @@
             </div>
         </a>
 
-=======
-
-        <a href="{{ route('social-link.index') }}" class="sl-menu-link">
-            <div class="sl-menu-item">
-                <i class="menu-item-icon bi bi-person-lines-fill tx-22"></i>
-                <span class="menu-item-label">Social link</span>
-                <i class="menu-item-arrow "></i>
-            </div>
-        </a>
-
-
-
->>>>>>> sagor
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <i class="menu-item-icon bi bi-gear-fill tx-22"></i>
