@@ -93,8 +93,6 @@
             </div>
         </a>
 
-
-
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <i class="menu-item-icon bi bi-gear-fill tx-22"></i>

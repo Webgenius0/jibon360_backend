@@ -23,12 +23,13 @@
                 <div class="form-layout">
                     <div class="row mg-b-25">
 
-                        <input type="hidden" name="id" value="{{ $PostCategory->id }}">
+                        <input type="hidden" name="id" value="{{ $SocialLink->id }}">
 
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="name">Name: <span class="tx-danger">*</span></label>
-                                <input class="form-control" type="text" name="name" value="{{ $PostCategory->name }}" id="name">
+                                <input class="form-control" type="text" name="name" value="{{ $SocialLink->name }}" id="name">
+                                <span class="text-warning">"facebook", "whatsapp","discord"</span>
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -38,9 +39,9 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <!-- <label class="form-control-label" for="icon">Icon:</label> -->
-                                <input class="form-control dropify" type="file" name="image" id="image" data-default-file="{{ asset($PostCategory->image) }}">
+                                <input class="form-control dropify" type="file" name="icon" id="icon" data-default-file="{{ asset($SocialLink->icon) }}">
                                 <span class="text-warning">* Image upload only and max size is 2MB</span>
-                                @error('image')
+                                @error('icon')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

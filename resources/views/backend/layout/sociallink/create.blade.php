@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label class="form-control-label" for="name">Name: <span class="tx-danger">*</span></label>
                                 <input class="form-control" type="text" name="name" value="{{ old('name') }}" id="name">
-                                <span class="text-warning">"facebook", "twitter", "youtube", "pinterest", "google", "linkedin","discord"</span>
+                                <span class="text-warning">"facebook", "whatsapp","discord"</span>
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

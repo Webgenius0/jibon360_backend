@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('social_links', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 'tiktok', 'github', 'discord', 'reddit', 'pinterest']);
+            $table->enum('name', ['facebook','whatsapp', 'twitter', 'instagram', 'linkedin', 'youtube', 'tiktok', 'github', 'discord', 'reddit', 'pinterest']);
             $table->string('url')->nullable();
             $table->enum('status', ['1', '0'])->default('0')->comment('1 = Active, 0 = Inactive');
             $table->string('icon')->nullable();
