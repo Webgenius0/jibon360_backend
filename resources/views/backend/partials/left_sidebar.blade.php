@@ -83,6 +83,15 @@
             <li class="nav-item"><a href="{{ route('emergency-contacts.create') }}" class="nav-link @if (Route::is('emergency-contacts.create')) active @endif"><i class="bi bi-brush tx-16"></i> Create</a></li>
         </ul>
 
+
+         <a href="#" class="sl-menu-link">
+            <div class="sl-menu-item">
+                <i class="menu-item-icon bi bi-person-lines-fill tx-22"></i>
+                <span class="menu-item-label">Social Links</span>
+                <i class="menu-item-arrow fa fa-angle-down"></i>
+            </div>
+        </a>
+
         <a href="#" class="sl-menu-link">
             <div class="sl-menu-item">
                 <i class="menu-item-icon bi bi-gear-fill tx-22"></i>

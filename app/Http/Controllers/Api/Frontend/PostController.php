@@ -52,7 +52,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'images' => 'required|array',
+            'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'post_category_id' => 'required',
             'i_am_hard' => 'required',
