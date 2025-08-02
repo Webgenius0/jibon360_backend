@@ -15,5 +15,5 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ftp.jibon420.com
-          username: app@frontend.jibon360.com
-          password: "@XLvwym(X!rp"
+          username: backend@backend.jibon360.com
+          password: "^+mp*8(fkKtR"
