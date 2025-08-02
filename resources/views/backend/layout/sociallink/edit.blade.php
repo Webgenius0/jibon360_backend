@@ -38,6 +38,17 @@
 
                         <div class="col-lg-12">
                             <div class="form-group">
+                                <label class="form-control-label" for="url">Url: <span class="tx-danger">*</span></label>
+                                <input class="form-control" type="text" name="url" value="{{ $SocialLink->url }}" id="url">
+                              
+                                @error('url')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
                                 <!-- <label class="form-control-label" for="icon">Icon:</label> -->
                                 <input class="form-control dropify" type="file" name="icon" id="icon" data-default-file="{{ asset($SocialLink->icon) }}">
                                 <span class="text-warning">* Image upload only and max size is 2MB</span>

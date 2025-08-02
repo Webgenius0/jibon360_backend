@@ -26,7 +26,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="name">Name: <span class="tx-danger">*</span></label>
-                                <input class="form-control" type="text" name="name" value="{{ old('name') }}" id="name">
+                                <input class="form-control" type="text" name="name" value="{{ old('name') }}" id="name" placeholder="Enter social link name">
                                 <span class="text-warning">"facebook", "whatsapp","discord"</span>
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
@@ -37,7 +37,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="url">Url: <span class="tx-danger">*</span></label>
-                                <input class="form-control" type="text" name="url" value="{{ old('url') }}" id="url">
+                                <input class="form-control" type="text" name="url" value="{{ old('url') }}" id="url" placeholder="https://www.example.com">
                                 @error('url')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
