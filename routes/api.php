@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Frontend\MapController;
 use App\Http\Controllers\Api\Frontend\NotificationController as ApiNotificationController;
 use App\Http\Controllers\Api\Frontend\PostController as ApiPostController;
 use App\Http\Controllers\Api\Frontend\ReachController;
+use App\Http\Controllers\Api\Frontend\SocialLinkController;
 use App\Http\Controllers\Api\Frontend\SosController;
 use App\Models\Reach;
 use App\Models\User;
@@ -51,6 +52,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'user'], function ($router
     Route::get('/post-delete/{id}', [ApiPostController::class, 'destroy']);
     //post api end
 
+    // social link api start
+
+  
+    // social link api end
     //reach api start
     Route::get('/post-reach/{id}/{status}', [ReachController::class, 'status']);
     //reach api end
@@ -82,5 +87,6 @@ Route::group(['prefix' => 'user'], function ($router) {
 
     //sos api start
     Route::get('/sos/{sos_id}', [SosController::class, 'sosApi']);
+      Route::get('/social-link', [SocialLinkController::class, 'index']);
     //sos api end
 });
