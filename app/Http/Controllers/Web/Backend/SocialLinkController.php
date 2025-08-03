@@ -19,11 +19,11 @@ class SocialLinkController extends Controller
             $data = SocialLink::latest();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn( 'image', function ( $data ) {
-                    if ( $data->image == null ) {
+                ->addColumn( 'icon', function ( $data ) {
+                    if ( $data->icon == null ) {
                         return '<img style="width: 25px;" src="' . asset('default/logo.png') . '">';
                     } else {
-                        return '<img style="width: 25px;" src="' . asset($data->image) . '">';
+                        return '<img style="width: 25px;" src="' . asset($data->icon) . '">';
                     }
                 })
                 ->addColumn( 'status', function ( $data ) {
@@ -49,7 +49,7 @@ class SocialLinkController extends Controller
                     $html .= '</div>';
                     return $html;
                 })
-                ->rawColumns(['image', 'status', 'action'])
+                ->rawColumns(['icon', 'status', 'action'])
                 ->make();
         }
         return view('backend.layout.sociallink.index');
