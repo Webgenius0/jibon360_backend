@@ -87,7 +87,7 @@
 
         <a href="{{ route('social-link.index') }}" class="sl-menu-link">
             <div class="sl-menu-item">
-                <i class="menu-item-icon bi bi-person-lines-fill tx-22"></i>
+                <i class="bi bi-globe tx-22"></i>
                 <span class="menu-item-label">Social link</span>
                 <i class="menu-item-arrow "></i>
             </div>

@@ -103,8 +103,8 @@
                         searchable: true
                     },
                     {
-                        data: 'image',
-                        name: 'image',
+                        data: 'icon',
+                        name: 'icon',
                         orderable: true,
                         searchable: true
                     },
