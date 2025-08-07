@@ -21,7 +21,7 @@ class SocialLinkController extends Controller
             'icon' => $socialLink->icon 
                 ? asset($socialLink->icon)
                 : asset('default/logo.png'),
-            'url'  => $socialLink->url,
+            'url'  => $socialLink->url??'',
         ];
     });
 
