@@ -70,6 +70,11 @@ class SocialLinkController extends Controller
             'icon'  => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if (SocialLink::count() >= 3) {
+            flash()->error('You can only add a maximum of 3 social links.');
+            return redirect()->back();
+        }
+
         try {
             $SocialLink = new SocialLink();
             $SocialLink->name = $request->name;
