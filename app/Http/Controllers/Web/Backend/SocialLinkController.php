@@ -11,32 +11,33 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\File;
 use Kreait\Firebase\Contract\Database;
 use Exception;
+
 class SocialLinkController extends Controller
 {
-     public function index(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
             $data = SocialLink::latest();
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn( 'icon', function ( $data ) {
-                    if ( $data->icon == null ) {
+                ->addColumn('icon', function ($data) {
+                    if ($data->icon == null) {
                         return '<img style="width: 25px;" src="' . asset('default/logo.png') . '">';
                     } else {
                         return '<img style="width: 25px;" src="' . asset($data->icon) . '">';
                     }
                 })
-                ->addColumn( 'status', function ( $data ) {
+                ->addColumn('status', function ($data) {
                     $status = ' <div class="form-check form-switch d-flex">';
                     $status .= ' <input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input d-none" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status"';
-                    if ( $data->status == 1 ) {
+                    if ($data->status == 1) {
                         $status .= "checked";
                     }
                     $status .= '>';
                     $status .= '<label for="customSwitch' . $data->id . '" class="form-check-label" for="customSwitch">';
                     if ($data->status == 1) {
                         $status .= "<img style='width: 20px;' src='" . asset('default/on.png') . "'>";
-                    }else{
+                    } else {
                         $status .= "<img style='width: 20px;' src='" . asset('default/off.png') . "'>";
                     }
                     $status .= '</label></div>';
@@ -44,8 +45,8 @@ class SocialLinkController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     $html = '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">';
-                    $html .= '<a href="' . route('social-link.edit', $data->id).'" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>';
-                    $html .= '<a href="#" onclick="showDeleteConfirm('.$data->id.')" type="button"class="btn btn-danger btn-sm text-white" title="Delete" readonly><i class="bi bi-trash"></i></a>';
+                    $html .= '<a href="' . route('social-link.edit', $data->id) . '" class="btn btn-sm btn-success" title="Edit"><i class="bi bi-pencil-square"></i></a>';
+                    $html .= '<a href="#" onclick="showDeleteConfirm(' . $data->id . ')" type="button"class="btn btn-danger btn-sm text-white" title="Delete" readonly><i class="bi bi-trash"></i></a>';
                     $html .= '</div>';
                     return $html;
                 })
@@ -57,40 +58,54 @@ class SocialLinkController extends Controller
 
     public function create()
     {
-        $SocialLink = SocialLink::where( 'status', '1' )->orderBy( 'id', 'desc' )->get();
+        $SocialLink = SocialLink::where('status', '1')->orderBy('id', 'desc')->get();
         return view('backend.layout.sociallink.create', compact('SocialLink'));
     }
 
     public function store(Database $database, Request $request)
     {
-        
         $request->validate([
             'name'  => 'required|min:3|max:255',
             'url'   => 'required|url',
-            'icon' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon'  => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
         try {
             $SocialLink = new SocialLink();
             $SocialLink->name = $request->name;
             $SocialLink->url = $request->url;
-            if (!empty($request['icon'])) {
+
+            // Set priority by name (lowercase)
+            $priorityMap = [
+                'facebook' => 1,
+                'whatsapp' => 2,
+                'discord'  => 3,
+            ];
+            $name = strtolower($request->name);
+            $SocialLink->priority = $priorityMap[$name] ?? 999;
+
+            // Upload icon
+            if (!empty($request->file('icon'))) {
                 $imageName = 'icon_' . Str::random(10);
-                $SocialLink->icon = Helper::fileUpload($request['icon'], 'social_link', $imageName);
+                $SocialLink->icon = Helper::fileUpload($request->file('icon'), 'social_link', $imageName);
             }
+
             $SocialLink->save();
 
-            // firebase noitification sender
-            /* try {
-                $data = [
-                    'id' => $SocialLink->id,
-                    'name' => $SocialLink->name,
-                    'type' => 'Social Link',
-                    'status' => '1',
-                ];
-                $store = $database->getReference('notifications')->push($data);
-            } catch (Exception $e) {
-                flash()->error($e->getMessage());
-            } */
+            // Optional: Firebase notification sender
+            /*
+        try {
+            $data = [
+                'id' => $SocialLink->id,
+                'name' => $SocialLink->name,
+                'type' => 'Social Link',
+                'status' => '1',
+            ];
+            $store = $database->getReference('notifications')->push($data);
+        } catch (Exception $e) {
+            flash()->error($e->getMessage());
+        }
+        */
 
             flash()->success('Social Link Added');
             return redirect()->route('social-link.index');
@@ -98,7 +113,6 @@ class SocialLinkController extends Controller
             flash()->error($e->getMessage());
             return redirect()->back();
         }
-        return redirect()->back();
     }
 
     public function show(SocialLink $SocialLink, $id)
@@ -128,28 +142,40 @@ class SocialLinkController extends Controller
             'url' => 'required|url',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
         try {
-            $SocialLink = SocialLink::find($request->id);
+            $SocialLink = SocialLink::findOrFail($request->id);
+
             $SocialLink->name = $request->name;
             $SocialLink->url = $request->url;
-            if(!empty( $request['icon'])){
-                if(!empty($SocialLink->image && File::exists(public_path( '/' ) . $SocialLink->image ))){
-                    @unlink( public_path( '/' ) . $SocialLink->icon );  
+
+            // Set or update priority based on name
+            $priorityMap = [
+                'facebook' => 1,
+                'whatsapp' => 2,
+                'discord'  => 3,
+            ];
+            $name = strtolower($request->name);
+            $SocialLink->priority = $priorityMap[$name] ?? 999;
+
+            // Update icon if uploaded
+            if ($request->hasFile('icon')) {
+                if (!empty($SocialLink->icon) && File::exists(public_path($SocialLink->icon))) {
+                    @unlink(public_path($SocialLink->icon));
                 }
-                $imageName = 'icon_'.Str::random(10);
-                $icon = Helper::fileUpload( $request->icon, 'social_link', $imageName);
-                $SocialLink->icon = $icon;
+                $imageName = 'icon_' . Str::random(10);
+                $SocialLink->icon = Helper::fileUpload($request->file('icon'), 'social_link', $imageName);
             }
+
             $SocialLink->save();
+
             flash()->success('Social Link Updated');
             return redirect()->route('social-link.index');
         } catch (Exception $e) {
             flash()->error($e->getMessage());
             return redirect()->back();
         }
-        return redirect()->back();
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -172,22 +198,23 @@ class SocialLinkController extends Controller
         }
     }
 
-    public function status( $id ) {
-        $data = SocialLink::where( 'id', $id )->first();
-        if ( $data->status == 1 ) {
+    public function status($id)
+    {
+        $data = SocialLink::where('id', $id)->first();
+        if ($data->status == 1) {
             $data->status = '0';
             $data->save();
-            return response()->json( [
+            return response()->json([
                 'success' => false,
                 'message' => 'Unpublished Successfully.',
-            ] );
+            ]);
         } else {
             $data->status = '1';
             $data->save();
-            return response()->json( [
+            return response()->json([
                 'success' => true,
                 'message' => 'Published Successfully.',
-            ] );
+            ]);
         }
     }
 }

@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th class="wd-15p">#</th>
-                            <th class="wd-15p">Name</th>
+                            <!-- <th class="wd-15p">Name</th> -->
                             <th class="wd-15p">Url</th>
                             <th class="wd-15p">Image</th>
                             <th class="wd-20p">Status</th>
@@ -90,12 +90,12 @@
                         orderable: false,
                         searchable: false
                     },
-                    {
-                        data: 'name',
-                        name: 'name',
-                        orderable: true,
-                        searchable: true
-                    },
+                    // {
+                    //     data: 'name',
+                    //     name: 'name',
+                    //     orderable: true,
+                    //     searchable: true
+                    // },
                     {
                         data: 'url',
                         name: 'url',

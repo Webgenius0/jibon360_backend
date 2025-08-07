@@ -44,16 +44,16 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
+                        <!-- <div class="col-lg-12">
                             <div class="form-group">
-                                <!-- <label class="form-control-label" for="icon">Icon:</label> -->
+                               
                                 <input class="form-control dropify" type="file" name="icon" id="icon">
                                 <span class="text-warning">* Image upload only and max size is 2MB</span>
                                 @error('icon')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> -->
                         
                     </div><!-- row -->
 
