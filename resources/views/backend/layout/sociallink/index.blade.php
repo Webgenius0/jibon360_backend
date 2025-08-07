@@ -28,9 +28,9 @@
                     <thead>
                         <tr>
                             <th class="wd-15p">#</th>
-                            <!-- <th class="wd-15p">Name</th> -->
+                            <th class="wd-15p">Name</th>
                             <th class="wd-15p">Url</th>
-                            <th class="wd-15p">Image</th>
+                            <!-- <th class="wd-15p">Image</th> -->
                             <th class="wd-20p">Status</th>
                             <th class="wd-15p">Action</th>
                         </tr>
@@ -90,24 +90,24 @@
                         orderable: false,
                         searchable: false
                     },
-                    // {
-                    //     data: 'name',
-                    //     name: 'name',
-                    //     orderable: true,
-                    //     searchable: true
-                    // },
+                    {
+                        data: 'name',
+                        name: 'name',
+                        orderable: true,
+                        searchable: true
+                    },
                     {
                         data: 'url',
                         name: 'url',
                         orderable: true,
                         searchable: true
                     },
-                    {
-                        data: 'icon',
-                        name: 'icon',
-                        orderable: true,
-                        searchable: true
-                    },
+                    // {
+                    //     data: 'icon',
+                    //     name: 'icon',
+                    //     orderable: true,
+                    //     searchable: true
+                    // },
                     {
                         data: 'status',
                         name: 'status',
