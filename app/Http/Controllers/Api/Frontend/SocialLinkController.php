@@ -11,7 +11,7 @@ class SocialLinkController extends Controller
     public function index()
 {
     $socialLinks = SocialLink::where('status', 1)
-        ->orderBy('id', 'desc')
+        ->orderBy('priority')
         ->get();
 
     $socialLinks = $socialLinks->map(function ($socialLink) {
