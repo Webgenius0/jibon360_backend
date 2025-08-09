@@ -89,7 +89,7 @@ class PostController extends Controller
             $post->save();
 
             //image upload code start
-            if (!empty($request['images']) && count($request['images']) > 0 && count($request['images']) <= 3) {
+            if (!empty($request['images']) && count($request['images']) > 0) {
                 foreach ($request['images'] as $image) {
                     $imageName = 'images_' . Str::random(10);
                     $image = Helper::fileUpload($image, 'posts', $imageName);
