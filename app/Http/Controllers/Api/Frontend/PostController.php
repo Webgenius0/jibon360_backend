@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Api\Frontend;
 
-use App\Helpers\Helper;
-use App\Http\Controllers\Controller;
-use App\Models\Post;
-use App\Models\PostCategory;
-use App\Models\PostImage;
-use App\Models\User;
-use App\Notifications\PostNoti;
 use Exception;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
+use App\Helpers\Helper;
+use App\Models\PostImage;
 use Illuminate\Support\Str;
+use App\Models\PostCategory;
+use Illuminate\Http\Request;
+use App\Notifications\PostNoti;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -89,14 +90,32 @@ class PostController extends Controller
             $post->save();
 
             //image upload code start
-            if (!empty($request['images']) && count($request['images']) > 0) {
-                foreach ($request['images'] as $image) {
-                    $imageName = 'images_' . Str::random(10);
-                    $image = Helper::fileUpload($image, 'posts', $imageName);
-                    PostImage::create(['post_id' => $post->id, 'image' => $image]);
+            // If files were uploaded, handle them
+            if ($request->hasFile('images')) {
+                $files = $request->file('images');
+
+                // Extra safety: count again server-side
+                if (!is_array($files)) {
+                    $files = [$files];
                 }
-            }else{
-                return Helper::jsonResponse(false, 'Maximum 3 images allowed', 422, $validator->errors());
+
+                if (count($files) > 3) {
+                    // delete created post if you want rollback behavior
+                    $post->delete();
+                    return Helper::jsonResponse(false, 'Maximum 3 images allowed', 422);
+                }
+
+                foreach ($files as $file) {
+                    // ensure it's an UploadedFile instance
+                    if (!$file->isValid()) {
+                        Log::warning('Uploaded file is not valid', ['file' => $file]);
+                        continue;
+                    }
+
+                    $imageName = 'images_' . Str::random(10);
+                    $imagePath = Helper::fileUpload($file, 'posts', $imageName); // expects UploadedFile
+                    PostImage::create(['post_id' => $post->id, 'image' => $imagePath]);
+                }
             }
             //image upload code end
 
@@ -109,7 +128,7 @@ class PostController extends Controller
                 'url' => '/dashboard/post/' . $post->id,
                 'message' => 'New post created by ' . Auth::user()->name
             ];
-            foreach($users as $user){
+            foreach ($users as $user) {
                 $user->notify(new PostNoti($notiData));
             }
             //database notification code end
